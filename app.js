@@ -22,6 +22,8 @@ new Vue({
       this.addValuesToArray(rowId,colId); 
             
       this.runCompMoves(); 
+
+      this.keepCount();
       
       console.log("clicked "+rowId,colId);
     },
@@ -82,13 +84,13 @@ new Vue({
     {
       var sum= this.rowA[0]+this.rowB[1]+this.rowC[2]; 
       console.log("Diagonal sum A "+sum); 
-      if(sum === this.X*3)
-      {
-         console.log("You win!");  
-      }else if(sum === this.O*3)
-      {
-        console.log("You lose");
-      }
+      // if(sum === this.X*3)
+      // {
+      //    console.log("You win!");  
+      // }else if(sum === this.O*3)
+      // {
+      //   console.log("You lose");
+      // }
       
       return sum; 
     },
@@ -98,13 +100,13 @@ new Vue({
       var sum= this.rowA[2]+this.rowB[1]+this.rowC[0]; 
       console.log("sum of Diagonal B "+sum);
       
-       if(sum === this.X*3)
-      {
-         console.log("You win!");  
-      }else if(sum === this.O*3)
-      {
-        console.log("You lose");
-      }
+      //  if(sum === this.X*3)
+      // {
+      //    console.log("You win!");  
+      // }else if(sum === this.O*3)
+      // {
+      //   console.log("You lose");
+      // }
       
       return sum; 
     },
@@ -134,6 +136,15 @@ new Vue({
       console.log("sum of rowA "+rowA);
       console.log("sum of rowB "+rowB);
       console.log("sum of rowC "+rowC);
+
+      if (diagonalA === this.O*3 || 
+          diagonalB===this.O*3 ||
+          rowA === this.O*3||
+          rowB === this.O*3 ||
+          rowC === this.O*3)
+      {
+        alert("You Lose! Computer Wins!"); 
+      }
     },
     
     sumOfColumns:function(colId)
@@ -155,26 +166,59 @@ new Vue({
            return "row-C"; 
         }
     },
+
+    getZeroFromDiagonalA:function()
+    {
+      if (this.rowA[0]===0) 
+      {
+        return "row-A";
+      }else if(this.rowB[1]===0)
+      {
+        return "row-B";
+      }else if(this.rowC[2]===0)
+      {
+        return "row-C";
+      }
+
+    },
+
+     getZeroFromDiagonalB:function()
+    {
+      if (this.rowA[2]===0) 
+      {
+        return "row-A";
+      }else if(this.rowB[1]===0)
+      {
+        return "row-B";
+      }else if(this.rowC[0]===0)
+      {
+        return "row-C";
+      }
+
+    },
+    
     
     compMoves:function()
     {
       console.log("calling comp first move function "+this.rowB[1]); 
+
       if(this.rowB[1]===0)
       {
         console.log("attempting to make a move"); 
         this.rowB.splice(1,1,this.O); 
         this.drawTicOrTac('row-B',2,'O'); 
         
-      }else if(this.rowB[0]===0)
+      }else if(this.rowA[0]===0)
       {
-        this.rowB.splice(0,1,this.O); 
-        this.drawTicOrTac('row-B',1,'O'); 
+        this.rowA.splice(0,1,this.O); 
+        this.drawTicOrTac('row-A',1,'O'); 
 
       }else if(6-this.sumOfColumns(0)==2)
       {
         console.log("column a is closest to 6");
         
-        this.watchColumns(1); 
+        this.watchColumns(1);
+
       }else if(6-this.sumOfColumns(1)==2)
       {
         console.log("column b is closest to 6");
@@ -185,7 +229,15 @@ new Vue({
       {
         console.log("column b is closest to 6");
 
-        this.watchColumns(3);  
+        this.watchColumns(3); 
+
+      }else if(6-this.sumDiagonalA()==2)
+      {
+          this.watchDiagonalA();
+
+      }else if(6-this.sumDiagonalB()==2)
+      {
+         this.watchDiagonalB(); 
       }
     }, 
 
@@ -210,6 +262,48 @@ new Vue({
           this.rowC.splice(index,1,this.O);
           this.drawTicOrTac(column,colId,'0');  
         }
+    },
+
+    watchDiagonalA:function()
+    {
+      var column = this.getZeroFromDiagonalA(); 
+
+      var _temp = column.replace('-','');
+
+      if (_temp==='rowA') 
+      {
+        this.rowA.splice(0,1,this.O);
+        this.drawTicOrTac(column,1,'O');  
+      }else if(_temp==='rowB')
+      {
+        this.rowB.splice(1,1,this.O); 
+        this.drawTicOrTac(column,2,'O'); 
+      }else if(_temp==='rowC')
+      {
+        this.rowC.splice(2,1,this.O);
+        this.drawTicOrTac(column,1,'O');  
+      }
+    },
+
+    watchDiagonalB:function()
+    {
+      var column = this.getZeroFromDiagonalB(); 
+
+      var _temp = column.replace('-','');
+
+      if (_temp==='rowA') 
+      {
+        this.rowA.splice(2,1,this.O);
+        this.drawTicOrTac(column,3,'O');  
+      }else if(_temp==='rowB')
+      {
+        this.rowB.splice(1,1,this.O); 
+        this.drawTicOrTac(column,2,'O'); 
+      }else if(_temp==='rowC')
+      {
+        this.rowC.splice(0,1,this.O);
+        this.drawTicOrTac(column,1,'O');  
+      }
     },
     
     runCompMoves:function()
