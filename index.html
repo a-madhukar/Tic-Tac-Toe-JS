@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="/app.css">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Tic Tac Toe</title>
+</head>
+<body>
+ {{$data|json}}
+ <div class="container">
+  <div class="col-md-6 col-md-offset-3" id="panel">
+
+    <div class="jumbotron">
+
+      <div class="row" id="row-A">
+        <div class="col-md-4" @click="clicked('row-A','1')"> </div>
+
+        <div class="col-md-4" @click="clicked('row-A','2')"></div>
+
+        <div class="col-md-4" @click="clicked('row-A','3')"></div>
+      </div>
+
+      <div class="row" id="row-B">
+
+        <div class="col-md-4" @click="clicked('row-B','1')"></div>
+        <div class="col-md-4" @click="clicked('row-B','2')"></div>
+        <div class="col-md-4" @click="clicked('row-B','3')"></div>
+      </div>
+
+      <div class="row" id="row-C">
+        <div class="col-md-4" @click="clicked('row-C','1')"></div>
+        <div class="col-md-4" @click="clicked('row-C','2')"></div>
+        <div class="col-md-4" @click="clicked('row-C','3')"></div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script src="http://vuejs.org/js/vue.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
