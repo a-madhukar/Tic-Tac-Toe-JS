@@ -144,7 +144,21 @@ new Vue({
           rowC === this.O*3)
       {
         alert("You Lose! Computer Wins!"); 
+        this.rowA=[0,0,0];
+        this.rowB=[0,0,0];
+        this.rowC=[0,0,0];
+        this.clearTextFromBoard();
       }
+    },
+
+    clearTextFromBoard:function()
+    {
+      for (var i = 3; i > 0; i--) {
+        $('#row-A>.col-md-4:nth-child('+i+')').text('');
+        $('#row-B>.col-md-4:nth-child('+i+')').text('');
+        $('#row-C>.col-md-4:nth-child('+i+')').text('');
+      };
+        
     },
     
     sumOfColumns:function(colId)
@@ -197,6 +211,11 @@ new Vue({
 
     },
     
+    getZeroFromRow:function(arrName)
+    {
+      console.log("getting index of zero value"); 
+      return arrName.indexOf(0); 
+    },
     
     compMoves:function()
     {
@@ -208,11 +227,42 @@ new Vue({
         this.rowB.splice(1,1,this.O); 
         this.drawTicOrTac('row-B',2,'O'); 
         
-      }else if(this.rowA[0]===0)
+      }else if(9-this.sumOfEachRow(this.rowA) ==3)
       {
-        this.rowA.splice(0,1,this.O); 
-        this.drawTicOrTac('row-A',1,'O'); 
+        this.watchRows('row-A',this.getZeroFromRow(this.rowA)); 
+      }else if(9-this.sumOfEachRow(this.rowB) ==3)
+      {
+        this.watchRows('row-B',this.getZeroFromRow(this.rowB)); 
+      }else if(9-this.sumOfEachRow(this.rowC) ==3)
+      {
+        this.watchRows('row-C',this.getZeroFromRow(this.rowC)); 
+      }else if(9-this.sumOfColumns(0)==3)
+      {
+        console.log("column a is closest to 6");
+        
+        this.watchColumns(1);
 
+      }else if(9-this.sumOfColumns(1)==3)
+      {
+       // console.log("column a is closest to 6");
+        
+        this.watchColumns(2);
+
+      }else if(9-this.sumOfColumns(2)==3)
+      {
+       // console.log("column a is closest to 6");
+        
+        this.watchColumns(3);
+
+      }else if(6-this.sumOfEachRow(this.rowA) ==2)
+      {
+        this.watchRows('row-A',this.getZeroFromRow(this.rowA)); 
+      }else if(6 - this.sumOfEachRow(this.rowB) ==2)
+      {
+          this.watchRows('row-B',this.getZeroFromRow(this.rowB));
+      }else if(6 - this.sumOfEachRow(this.rowC) == 2)
+      {
+        this.watchRows('row-C',this.getZeroFromRow(this.rowC));
       }else if(6-this.sumOfColumns(0)==2)
       {
         console.log("column a is closest to 6");
@@ -238,6 +288,25 @@ new Vue({
       }else if(6-this.sumDiagonalB()==2)
       {
          this.watchDiagonalB(); 
+      }else if(this.rowA[0]===0)
+      {
+        this.rowA.splice(0,1,this.O); 
+        this.drawTicOrTac('row-A',1,'O'); 
+
+      }else if(this.rowB[0]===0)
+      {
+        this.rowB.splice(0,1,this.O);
+        this.drawTicOrTac('row-B',1,'O'); 
+
+      }else if(this.rowA[this.getZeroFromRow(this.rowA)]===0)
+      {
+        this.watchRows('row-A',this.getZeroFromRow(this.rowA)); 
+      }else if(this.rowB[this.getZeroFromRow(this.rowB)]===0)
+      {
+        this.watchRows('row-B',this.getZeroFromRow(this.rowB)); 
+      }else if(this.rowC[this.getZeroFromRow(this.rowC)]===0)
+      {
+        this.watchRows('row-C',this.getZeroFromRow(this.rowC)); 
       }
     }, 
 
@@ -303,6 +372,27 @@ new Vue({
       {
         this.rowC.splice(0,1,this.O);
         this.drawTicOrTac(column,1,'O');  
+      }
+    },
+
+    watchRows:function(arrName, colId)
+    {
+      var _temp = arrName.replace('-','');
+
+      if (_temp==='rowA') 
+      {
+        this.rowA.splice(colId,1,this.O);
+        this.drawTicOrTac(arrName,colId+1,'O'); 
+
+      }else if(_temp==='rowB')
+      {
+        this.rowB.splice(colId,1,this.O);
+        this.drawTicOrTac(arrName,colId+1,'O'); 
+
+      }else if(_temp==='rowC')
+      {
+        this.rowC.splice(colId,1,this.O);
+        this.drawTicOrTac(arrName,colId+1,'O');  
       }
     },
     
