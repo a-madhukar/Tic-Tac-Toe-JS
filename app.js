@@ -17,6 +17,7 @@ new Vue({
   
   methods:{
     
+    //responds to user click
     clicked:function(rowId, colId)
     {
       this.addValuesToArray(rowId,colId); 
@@ -28,6 +29,7 @@ new Vue({
       console.log("clicked "+rowId,colId);
     },
     
+    //adds an X if spot in array is blank
     addValuesToArray:function(rowId,colId)
     {
        if(rowId==='row-A'){ 
@@ -75,6 +77,8 @@ new Vue({
       $('#'+row+'>.col-md-4:nth-child('+colId+')').text(text);
     },
     
+    //finds pre existing values in array
+    //other than 0
     cancelDuplicates:function(arrName,colId)
     {
        return arrName[colId-1]===this.X || arrName[colId-1]===this.O ? false : true; 
@@ -130,6 +134,9 @@ new Vue({
       var rowA = this.sumOfEachRow(this.rowA); 
       var rowB = this.sumOfEachRow(this.rowB);
       var rowC = this.sumOfEachRow(this.rowC);
+      var colA = this.sumOfColumns(0);
+      var colB = this.sumOfColumns(1);
+      var colC = this.sumOfColumns(2); 
       
       console.log("sum of diagonal A "+diagonalA);
       console.log("sum of diagonalB "+diagonalB);
@@ -141,12 +148,16 @@ new Vue({
           diagonalB===this.O*3 ||
           rowA === this.O*3||
           rowB === this.O*3 ||
-          rowC === this.O*3)
+          rowC === this.O*3 || 
+          colA === this.O*3 ||
+          colB === this.O*3 ||
+          colC === this.O*3)
       {
         alert("You Lose! Computer Wins!"); 
         this.rowA=[0,0,0];
         this.rowB=[0,0,0];
         this.rowC=[0,0,0];
+        this.compMove=false;
         this.clearTextFromBoard();
       }
     },
