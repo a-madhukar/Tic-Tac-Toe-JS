@@ -74,7 +74,7 @@ new Vue({
     //draws either a X or O on the screen
     drawTicOrTac:function(row,colId,text)
     {
-      $('#'+row+'>.col-md-4:nth-child('+colId+')').text(text);
+      $('#'+row+'>.col-xs-4:nth-child('+colId+')').text(text);
     },
     
     //finds pre existing values in array
@@ -165,9 +165,9 @@ new Vue({
     clearTextFromBoard:function()
     {
       for (var i = 3; i > 0; i--) {
-        $('#row-A>.col-md-4:nth-child('+i+')').text('');
-        $('#row-B>.col-md-4:nth-child('+i+')').text('');
-        $('#row-C>.col-md-4:nth-child('+i+')').text('');
+        $('#row-A>.col-xs-4:nth-child('+i+')').text('');
+        $('#row-B>.col-xs-4:nth-child('+i+')').text('');
+        $('#row-C>.col-xs-4:nth-child('+i+')').text('');
       };
         
     },
@@ -194,6 +194,7 @@ new Vue({
 
     getZeroFromDiagonalA:function()
     {
+
       if (this.rowA[0]===0) 
       {
         return "row-A";
@@ -265,6 +266,13 @@ new Vue({
         
         this.watchColumns(3);
 
+      }else if(9-this.sumDiagonalA()==3)
+      {
+          this.watchDiagonalA();
+
+      }else if(9-this.sumDiagonalB()==3)
+      {
+         this.watchDiagonalB(); 
       }else if(6-this.sumOfEachRow(this.rowA) ==2)
       {
         this.watchRows('row-A',this.getZeroFromRow(this.rowA)); 
@@ -347,7 +355,7 @@ new Vue({
     watchDiagonalA:function()
     {
       var column = this.getZeroFromDiagonalA(); 
-
+      console.log("diagonal a "+column); 
       var _temp = column.replace('-','');
 
       if (_temp==='rowA') 
@@ -361,7 +369,7 @@ new Vue({
       }else if(_temp==='rowC')
       {
         this.rowC.splice(2,1,this.O);
-        this.drawTicOrTac(column,1,'O');  
+        this.drawTicOrTac(column,3,'O');  
       }
     },
 
